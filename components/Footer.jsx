@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <p>Copyrights &copy ; developet by hamed</p>
       <p>
-        <Link href="/about">About this project</Link>
+        <Link href="/about">About This Project</Link>
       </p>
     </footer>
   );
