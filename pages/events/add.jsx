@@ -1,4 +1,4 @@
-import Layout from "../../components/layout";
+import Layout from "@/components/Leyout";
 export default function AddEventPage() {
   return (
     <Layout title="Add New Event">
