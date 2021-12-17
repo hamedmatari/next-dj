@@ -22,11 +22,13 @@ export default function HomePage({ events }) {
   );
 }
 export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/api/events`);
+  const res = await fetch(
+    `${API_URL}/api/events?populate=*&pagination[limit]=3`
+  );
   const events = await res.json();
-  console.log("index con log");
+
   return {
-    props: { events: events.slice(0, 3) },
+    props: { events: events.data },
     revalidate: 1,
   };
 }

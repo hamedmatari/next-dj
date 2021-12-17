@@ -16,11 +16,11 @@ export default function HomePage({ events }) {
   );
 }
 export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/api/events`);
+  const res = await fetch(`${API_URL}/api/events?populate=*`);
   const events = await res.json();
   console.log("d");
   return {
-    props: { events },
+    props: { events: events.data },
     revalidate: 1,
   };
 }

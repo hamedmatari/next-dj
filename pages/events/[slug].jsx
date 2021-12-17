@@ -5,10 +5,11 @@ import Link from "next/link";
 import Image from "next/Image";
 import styles from "@/styles/Event.module.css";
 import Layout from "@/components/Leyout";
-export default function EventPage({ evt }) {
+export default function EventPage({ evt: { attributes: evt } }) {
   const deleteEvent = (e) => {
     console.log("delete event");
   };
+
   return (
     <Layout>
       <div className={styles.event}>
@@ -35,7 +36,8 @@ export default function EventPage({ evt }) {
         <p>{evt.performers}</p>
         <h3>Description:</h3>
         <p>{evt.description}</p>
-        <h3>Venue:{evt.vanue}</h3>
+        <h3>Venue:</h3>
+        <p>{evt.venue}</p>
         <p>{evt.address}</p>
         {/* <Link href="/events">
           <a className={styles.back}>{"<"}Go Back</a>
@@ -51,10 +53,9 @@ export default function EventPage({ evt }) {
 export async function getStaticPaths() {
   const res = await fetch(`${API_URL}/api/events`);
   const events = await res.json();
-
-  const paths = events.map((evt) => ({
+  const paths = events.data.map(({ attributes }) => ({
     params: {
-      slug: evt.slug,
+      slug: attributes.slug,
     },
   }));
 
@@ -64,10 +65,10 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params: { slug } }) {
-  const res = await fetch(`${API_URL}/api/events/${slug}`);
+  const res = await fetch(`${API_URL}/api/events?filters[slug][$eq]=${slug}`);
   const evt = await res.json();
-
+  // console.log(evt);
   return {
-    props: { evt: evt[0] },
+    props: { evt: evt.data[0] },
   };
 }
