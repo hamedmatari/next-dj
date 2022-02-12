@@ -1,8 +1,9 @@
 import { API_URL } from "@/config/index";
 import Layout from "@/components/Leyout";
+import qs from "qs";
 import EventItem from "@/components/EventItem";
 
-export default function HomePage({ events }) {
+export default function SearchPage({ events }) {
   return (
     <div>
       <Layout title="Dj Events | All Events">
@@ -15,12 +16,22 @@ export default function HomePage({ events }) {
     </div>
   );
 }
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/api/events?populate=*`);
+export async function getServerSideProps({ query: { term } }) {
+  const query = qs.stringify({
+    filters: {
+      $or: [
+        { venue: { $contains: term } },
+        { name: { $contains: term } },
+        { performers: { $contains: term } },
+      ],
+    },
+    populate: "*",
+  });
+
+  const res = await fetch(`${API_URL}/api/events?${query}`);
   const events = await res.json();
-  console.log("/events");
+
   return {
     props: { events: events.data },
-    revalidate: 1,
   };
 }

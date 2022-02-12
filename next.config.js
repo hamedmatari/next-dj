@@ -1,6 +1,6 @@
 module.exports = {
-  reactStrictMode: true,
   images: {
-    domains: ["sportshub.cbsistatic.com"],
+    domains: ["localhost"],
+    formats: ["image/avif", "image/webp"],
   },
 };

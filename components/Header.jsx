@@ -8,6 +8,7 @@ export default function Header() {
           <a>DJ Events</a>
         </Link>
       </div>
+
       <nav>
         <ul>
           <li>

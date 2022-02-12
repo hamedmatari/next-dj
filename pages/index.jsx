@@ -2,12 +2,18 @@ import { API_URL } from "@/config/index";
 import Layout from "@/components/Leyout";
 import EventItem from "@/components/EventItem";
 import Link from "next/link";
-
+import Search from "@/components/Search";
+import { useState } from "react";
 export default function HomePage({ events }) {
+  const [searched, setSearch] = useState("");
+  const funSearch = (searched) => {
+    setSearch(searched);
+  };
   return (
     <div>
       <Layout>
         <h1>Upcoming Events</h1>
+        <Search fff={funSearch} />
         {events.length === 0 && <h3>there is nothing to show</h3>}
         {events.map((evt) => (
           <EventItem evt={evt} key={evt.id} />

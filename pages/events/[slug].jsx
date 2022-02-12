@@ -2,13 +2,14 @@ import { API_URL } from "@/config/index";
 import { FaPen, FaPencilAlt, FaTimes } from "react-icons/fa";
 import Router from "next/router";
 import Link from "next/link";
-import Image from "next/Image";
+import Image from "next/image";
 import styles from "@/styles/Event.module.css";
 import Layout from "@/components/Leyout";
 export default function EventPage({ evt: { attributes: evt } }) {
   const deleteEvent = (e) => {
     console.log("delete event");
   };
+  const { url } = evt.image.data.attributes;
 
   return (
     <Layout>
@@ -28,7 +29,7 @@ export default function EventPage({ evt: { attributes: evt } }) {
         </span>
         <h1>{evt.name}</h1>
         <Image
-          src={evt.image ? evt.image : "/images/event-default.png"}
+          src={evt.image ? `${API_URL}${url}` : "/images/event-default.png"}
           width={960}
           height={600}
         />
@@ -65,7 +66,9 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params: { slug } }) {
-  const res = await fetch(`${API_URL}/api/events?filters[slug][$eq]=${slug}`);
+  const res = await fetch(
+    `${API_URL}/api/events?filters[slug][$eq]=${slug}&populate=*`
+  );
   const evt = await res.json();
   // console.log(evt);
   return {
